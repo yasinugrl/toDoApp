@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
 import { Input, Button } from '../Components'
+import { connect } from 'react-redux';
 
 
 const ListDetail = (props) => {
@@ -34,15 +35,10 @@ const ListDetail = (props) => {
                     text={'Add'}
                     style={{ height: 40 }}
                     onPress={() => {
-                        // let arr = data.slice()
                         let obj = {
                             title,
                             dsc
                         };
-                        // arr.push(obj)
-
-                        // setData(arr)
-
                         props.navigation.navigate('List', { obj });
                     }}
                 />
@@ -51,4 +47,10 @@ const ListDetail = (props) => {
     );
 }
 
-export default ListDetail;
+
+const mapStateToProps = ({ listResponse }) => {
+    const { list } = listResponse;
+    return { list };
+};
+
+export default connect( mapStateToProps, { } )(ListDetail);
