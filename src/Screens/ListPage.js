@@ -6,21 +6,14 @@ import {
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux'
 import { Input, Button } from '../Components'
+import { ADD_LIST_LOCAL, SET_LIST } from '../actions/types';
+import { getList } from '../actions';
+
 const ListPage = (props) => {
 
-
-    const [data, setData] = useState([])
-
     useEffect(() => {
-        console.log('Gelen Depğer: ', props.route.params?.obj);
-
-        if(props.route.params?.obj) {
-            let arr = data.slice()
-            arr.push(props.route.params?.obj)
-            setData(arr)
-        }
-        
-    }, [props.route.params?.obj])
+        props.getList()
+    }, [])
 
     const renderItem = ({ item }) => (
         <View style={styles.item}>
@@ -55,9 +48,7 @@ const ListPage = (props) => {
                                 <Button
                                     text={'Add New'}
                                     onPress={() => { 
-                                        props.navigation.navigate('ListDetail', {
-                                            data
-                                        })
+                                        props.navigation.navigate('ListDetail')
                                     }}
                                 />
                             </View>
@@ -101,6 +92,6 @@ const mapStateToProps = (state) => {
     return { list, list, loading, data };
 };
 
-export default connect( mapStateToProps, {  } )(ListPage);
+export default connect( mapStateToProps, { getList  } )(ListPage);
 
 

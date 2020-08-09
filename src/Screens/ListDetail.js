@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Text, View, 
-    üKeyboardAvoidingView, Platform, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
 
 import { Input, Button } from '../Components'
 import { connect, useDispatch } from 'react-redux';
 import { LOADING_START, LOADING_END, UPDATE_LIST } from '../actions/types';
+import { updateList } from '../actions';
 
 
 const ListDetail = (props) => {
@@ -33,6 +33,10 @@ const ListDetail = (props) => {
                     placeholder='Description'
                     value={dsc}
                     onChangeText={(value) => setDsc(value)}
+                    multiline
+                    style={{
+                        height: 100
+                    }}
                 />
 
                 <Button
@@ -43,17 +47,9 @@ const ListDetail = (props) => {
                             title,
                             dsc
                         };
-                        dispatch({ type: UPDATE_LIST, payload: obj })
-                        props.navigation.pop();
                         
-                        // props.navigation.navigate('List', { obj });
-                        // dispatch({ type: LOADING_START, payload: true })
-
-                        // setTimeout(() => {
-                        //     // 2 saniye sonra çalış.
-                        //     dispatch({ type: LOADING_END, payload: false })
-                        // }, 2000)
-
+                        props.updateList(obj)
+                        props.navigation.pop();
                     }}
                 />
 
@@ -69,4 +65,4 @@ const mapStateToProps = ({ listResponse }) => {
     return { list, loading };
 };
 
-export default connect( mapStateToProps, { } )(ListDetail);
+export default connect( mapStateToProps, { updateList } )(ListDetail);
